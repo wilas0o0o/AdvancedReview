@@ -22,7 +22,7 @@
           <td class="comments-count">コメント数: <%= @book.book_comments.count %></td>
           <td id="star-rate-<%= @book.id %>"></td>
           <script>
-            $("#star").empty()
+            $("#star-rate-<%= @book.id %>").empty()
             $("#star-rate-<%= @book.id %>").raty({
               size: 36,
               starOff: "<%= asset_path("star-off.png") %>",

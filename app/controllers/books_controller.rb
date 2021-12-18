@@ -13,7 +13,7 @@ class BooksController < ApplicationController
     elsif params[:sort_rate]
       @books = Book.ratest
     else
-      @books = Book.all
+      @books = Book.left_joins(:week_favorites).group(:id).order(Arel.sql('count(book_id) desc'))
     end
     @book = Book.new
   end
