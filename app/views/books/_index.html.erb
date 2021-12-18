@@ -33,6 +33,7 @@
               score: <%= book.rate %>
             });
           </script>
+        <td>閲覧数: <%= book.impressions.count %></td>
       </tr>
     <% end %>
   </tbody>
