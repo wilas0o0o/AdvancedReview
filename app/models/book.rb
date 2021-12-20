@@ -10,6 +10,13 @@ class Book < ApplicationRecord
 	validates :title, presence: true
 	validates :body, presence: true, length: {maximum: 200}
 	validates :category, presence: true
+	
+	scope :today_book, -> { where(created_at: Time.zone.now.all_day) }
+	scope :yesterday_book, -> { where(created_at: 1.day.ago.all_day) }
+	scope :this_week_book, -> { where(created_at: 6.day.ago.at_beginning_of_day .. Time.zone.now.at_end_of_day) }
+	scope :last_week_book, -> { where(created_at: 13.day.ago.at_beginning_of_day .. 1.week.ago.at_end_of_day) }
+	
+	
 
   def favorited_by?(user)
     favorites.where(user_id: user.id).exists?
