@@ -1,0 +1,115 @@
+<h4>投稿数の前日比・前週比</h4>
+<table class="table table-bordered the_day_before">
+  <thead>
+    <tr>
+      <th>今日の投稿数</th>
+      <th>前日の投稿数</th>
+      <th>前日比</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= books.today_book.count %></td>
+      <td><%= books.yesterday_book.count %></td>
+      <td>
+        <% if books.yesterday_book.count == 0%>
+          投稿なし
+        <% else %>
+          <% @the_day_before = books.today_book.count / books.yesterday_book.count.to_f %>
+          <%= (@the_day_before * 100).round %>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<table class="table table-bordered the_week_before">
+  <thead>
+    <tr>
+      <th>今週の投稿数</th>
+      <th>前週の投稿数</th>
+      <th>前週比</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= books.this_week_book.count %></td>
+      <td><%= books.last_week_book.count %></td>
+      <td>
+        <% if books.last_week_book.count == 0 %>
+          投稿なし
+        <% else %>
+          <% @the_week_before = books.this_week_book.count / books.last_week_book.count.to_f %>
+          <%= (@the_week_before * 100).round %>
+        <% end %>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>7日分の投稿数</h4>
+<table class="table table-bordered daily_posts">
+  <thead>
+    <tr>
+      <th>6日前</th>
+      <th>5日前</th>
+      <th>4日前</th>
+      <th>3日前</th>
+      <th>2日前</th>
+      <th>1日前</th>
+      <th>今日</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= books.six_days_ago_book.count %></td>
+      <td><%= books.five_days_ago_book.count %></td>
+      <td><%= books.four_days_ago_book.count %></td>
+      <td><%= books.three_days_ago_book.count %></td>
+      <td><%= books.two_days_ago_book.count %></td>
+      <td><%= books.yesterday_book.count %></td>
+      <td><%= books.today_book.count %></td>
+    </tr>
+  </tbody>
+</table>
+
+<canvas id="myChart"></canvas>
+<script>
+  $(document).on("turbolinks:load",function() {
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ["6日前","5日前","4日前","3日前","2日前","1日前","今日"],
+        datasets: [
+          {
+            label: "投稿した本の数",
+            data: [<%= books.six_days_ago_book.count %>,<%= books.five_days_ago_book.count %>,<%= books.four_days_ago_book.count %>,<%= books.three_days_ago_book.count %>,<%= books.two_days_ago_book.count %>,<%= books.yesterday_book.count %>,<%= books.today_book.count %>],
+            borderColor: 'rgba(0,0,255,1)',
+            backgroundColor: 'rgba(0,0,0,0)'
+          }
+        ],
+      },
+      options: {
+        title: {
+          display: true,
+          text: "7日間の投稿数の比較",
+        },
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                suggestedMax: 10,
+                suggestedMin: 0,
+                setp: 1,
+                callback: function(value, index, values){
+                  return value
+                }
+              }
+            }
+          ]
+        },
+      },
+    });
+  });
+</script>
+

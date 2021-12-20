@@ -15,7 +15,11 @@ class Book < ApplicationRecord
 	scope :yesterday_book, -> { where(created_at: 1.day.ago.all_day) }
 	scope :this_week_book, -> { where(created_at: 6.day.ago.at_beginning_of_day .. Time.zone.now.at_end_of_day) }
 	scope :last_week_book, -> { where(created_at: 13.day.ago.at_beginning_of_day .. 1.week.ago.at_end_of_day) }
-	
+	scope :two_days_ago_book, -> { where(created_at: 2.days.ago.all_day) }
+	scope :three_days_ago_book, -> { where(created_at: 3.days.ago.all_day) }
+	scope :four_days_ago_book, -> { where(created_at: 4.days.ago.all_day) }
+	scope :five_days_ago_book, -> { where(created_at: 5.days.ago.all_day) }
+	scope :six_days_ago_book, -> { where(created_at: 6.days.ago.all_day) }
 	
 
   def favorited_by?(user)
